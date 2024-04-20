@@ -46,21 +46,14 @@ FHitResult UMyFunctionLibrary::PerformLineTrace(const UObject* WorldContextObjec
 }
 
 
-FHitResult UMyFunctionLibrary::PerformLineTrace2(UWorld* World, USceneComponent* MySceneComponent, float SpreadShoot)
+FHitResult UMyFunctionLibrary::PerformLineTrace2(UWorld* World, AActor* Actor1,  USceneComponent* MySceneComponent, float SpreadShoot)
 {
-
-
 	FVector WorldLocation = MySceneComponent->GetComponentLocation();
     FVector TraceStart = WorldLocation;
 
-
-
 	FVector ForwardVector = MySceneComponent->GetForwardVector();
 	FVector RandomUnitVectorInCone = UKismetMathLibrary::RandomUnitVectorInConeInDegrees(ForwardVector, SpreadShoot);
-
 	FVector TraceEnd = WorldLocation + (RandomUnitVectorInCone * 10000.0f);
-
-	GEngine->AddOnScreenDebugMessage(-5, 5, FColor::Red, TraceEnd.ToString());
 
 	FHitResult HitResult;
 
@@ -74,11 +67,11 @@ FHitResult UMyFunctionLibrary::PerformLineTrace2(UWorld* World, USceneComponent*
 	//	const FCollisionQueryParams & Params,
 	//	const FCollisionResponseParams & ResponseParam
 	//);
-
-
+	
 
 	// Perform the line trace
 	FCollisionQueryParams TraceParams;
+
 	bool bHit = World->LineTraceSingleByChannel(HitResult, TraceStart, TraceEnd, ECC_Camera, TraceParams);
 	//DrawDebugLine(World, TraceStart, TraceEnd, FColor::Red, 2.0f);
 

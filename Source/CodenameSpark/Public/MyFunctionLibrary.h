@@ -25,6 +25,6 @@ class CODENAMESPARK_API UMyFunctionLibrary : public UBlueprintFunctionLibrary
 		static FHitResult PerformLineTrace(const UObject* WorldContextObject, FVector Start, FVector End);
 
 		UFUNCTION(BlueprintCallable, Category = "LineTrace")
-		static FHitResult PerformLineTrace2(UWorld* World, USceneComponent* MySceneComponent,float SpreadShoot);
+		static FHitResult PerformLineTrace2(UWorld* World, AActor* Actor1,USceneComponent* MySceneComponent,float SpreadShoot);
 
 };

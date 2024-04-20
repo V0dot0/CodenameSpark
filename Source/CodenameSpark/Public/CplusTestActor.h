@@ -14,11 +14,20 @@ class CODENAMESPARK_API ACplusTestActor : public AActor
 	int16 num;
 	float num2;
 	FName myName;
+
+	void MyFunctionToUpdateVariable();
 	
+	FTimerHandle TimerHandle_UpdateVariable;
+	
+
+
 public:	
 	// Sets default values for this actor's properties
 	ACplusTestActor();
-
+	UWorld* GetWorldFromActor(AActor* Actor);
+	UPROPERTY(BlueprintReadWrite)
+	UWorld* ActorWorld;
+	FHitResult PerformLineTrace3(USceneComponent* MySceneComponent, float SpreadShoot);
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
