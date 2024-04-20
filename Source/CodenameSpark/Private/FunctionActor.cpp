@@ -1,6 +1,5 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "FunctionActor.h"
 
 #include "Engine/World.h"
@@ -12,35 +11,31 @@
 #include "GameFramework/Actor.h"
 #include "Kismet/GameplayStatics.h"
 
-// Sets default values
+#include "CollisionQueryParams.h"
+
 AFunctionActor::AFunctionActor()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
 }
 
-// Called when the game starts or when spawned
 void AFunctionActor::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
-// Called every frame
 void AFunctionActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
-FHitResult AFunctionActor::TraceFromLocationToLocation(float SpreadShoot)
+FHitResult AFunctionActor::TraceFromLocationToLocation(float SpreadShoot, FVector WeaponBarrelLocation, AActor* ActorToIgnore)
 {
     FHitResult HitResult;
-
-    // Set up the trace parameters
+   
     FCollisionQueryParams TraceParams(FName(TEXT("TraceFromLocationToLocation")), true, this);
     TraceParams.bTraceComplex = true;
+
+    TraceParams.AddIgnoredActor(ActorToIgnore);
 
     USceneComponent* MySceneComponent = GetPlayerCameraTransform();
 
@@ -56,11 +51,31 @@ FHitResult AFunctionActor::TraceFromLocationToLocation(float SpreadShoot)
         HitResult,
         TraceStart,
         TraceEnd,
-        ECC_Visibility,
+        ECC_Camera,
         TraceParams
     );
 
-    return HitResult;
+    FHitResult HitResult2;
+    FVector TraceStart2 = WeaponBarrelLocation;
+    FVector TraceEnd2 = WorldLocation;
+    bool bHitSomething = HitResult.bBlockingHit;
+
+    if (bHitSomething == true) {
+        TraceEnd2 = HitResult.Location + RandomUnitVectorInCone*10.0f;
+    }
+    else {
+        TraceEnd2 = TraceEnd;
+    }
+
+    GetWorld()->LineTraceSingleByChannel(
+        HitResult2,
+        TraceStart2,
+        TraceEnd2,
+        ECC_Camera,
+        TraceParams
+    );
+
+    return HitResult2;
 }
 
 USceneComponent* AFunctionActor::GetPlayerCameraTransform()

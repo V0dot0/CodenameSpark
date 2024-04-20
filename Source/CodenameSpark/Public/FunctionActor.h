@@ -18,7 +18,7 @@ public:
 	USceneComponent*  GetPlayerCameraTransform();
 
 	UFUNCTION(BlueprintCallable, Category = "Trace")
-	FHitResult TraceFromLocationToLocation(float SpreadShoot);
+	FHitResult TraceFromLocationToLocation(float SpreadShoot, FVector WeaponBarrelLocation, AActor* ActorToIgnore);
 
 protected:
 	virtual void BeginPlay() override;
