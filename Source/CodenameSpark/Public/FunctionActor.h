@@ -17,8 +17,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "CameraPlayer")
 	USceneComponent*  GetPlayerCameraTransform();
 
-	// ѕосле компил€ции кода, функци€ TraceFromLocationToLocation станет доступной дл€ использовани€ в Blueprints использу€ BlueprintCallable
-	UFUNCTION(BlueprintCallable, Category = "Trace") 
+	UFUNCTION(BlueprintCallable, Category = "Trace")
 	FHitResult TraceFromLocationToLocation(float SpreadShoot, FVector WeaponBarrelLocation, AActor* ActorToIgnore);
 
 protected:
